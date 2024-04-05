@@ -1,0 +1,132 @@
+DSA
+QUIZ 2:  Linked Lists
+2.2 : COMPUTER TECHNOLOGY
+NJENGA BEATRICE WAMBUI
+
+
+Question one
+To solve this problem, you can use Floyd's Tortoise and Hare algorithm, also known as the slow and fast pointers technique. This algorithm involves using two pointers, one moving at twice the speed of the other.
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def hasCycle(head):
+    if not head or not head.next:
+        return False
+    
+    slow = head
+    fast = head.next
+    
+    while slow != fast:
+        if not fast or not fast.next:
+            return False
+        slow = slow.next
+        fast = fast.next.next
+    
+    return True
+
+# Example usage:
+# Create the linked list
+head = ListNode(3)
+head.next = ListNode(2)
+head.next.next = ListNode(0)
+head.next.next.next = ListNode(-4)
+head.next.next.next.next = head.next 
+pos = 1
+print(hasCycle(head))  # Output: True
+
+This algorithm has O(1) space complexity since it only uses two pointers regardless of the size of the linked list. It traverses the list once, so the time complexity is O(n), where n is the number of nodes in the linked list.
+
+
+Question two
+To solve this problem, you can extend the Floyd's Tortoise and Hare algorithm. Once the two pointers meet, you reset one of them to the head of the linked list and move them both at the same speed. The point where they meet again will be the start of the cycle.
+
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+def detectCycle(head):
+    if not head or not head.next:
+        return None
+    
+    # Phase 1: Detect cycle
+    slow = head
+    fast = head
+    
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        
+        if slow == fast:
+            break
+    else:
+        return None  # No cycle
+    
+    # Phase 2: Find start of the cycle
+    slow = head
+    
+    while slow != fast:
+        slow = slow.next
+        fast = fast.next
+    
+    return slow
+
+# Example usage:
+# Create the linked list
+head = ListNode(3)
+head.next = ListNode(1)
+head.next.next = ListNode(0)
+head.next.next.next = ListNode(-4)
+head.next.next.next.next = head.next  # creating a cycle
+
+cycle_start = detectCycle(head)
+if cycle_start:
+    print("Output: tail connects to node index", cycle_start.val)
+else:
+    print("Output: no cycle")
+
+
+#output  Output: tail connects to node index 1
+
+This algorithm has O(1) space complexity since it only uses two pointers regardless of the size of the linked list. It traverses the list once for detecting the cycle and then once again to find the start of the cycle, so the time complexity is O(n), where n is the number of nodes in the linked list.
+
+
+Question three
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverseLinkedList(head):
+    prev = None
+    current = head
+    
+    while current:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+    
+    return prev
+
+# Example usage:
+# Create the linked list
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+head.next.next.next.next = ListNode(5)
+
+reversed_head = reverseLinkedList(head)
+while reversed_head:
+    print(reversed_head.val, end=" ")
+    reversed_head = reversed_head.next
+
+
+#output  5 4 3 2 1 
+This code will print the values of the reversed linked list. The reverseLinkedList function takes the head of the linked list as input and returns the head of the reversed linked list. It iterates through the list, reversing the pointers as it goes, effectively reversing the list.
